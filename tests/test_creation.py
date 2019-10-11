@@ -55,20 +55,6 @@ class TestCookieSetup(object):
         p = check_output(args).decode('ascii').strip()
         assert p == '0.1.0'
 
-    def test_license(self):
-        license_path = self.path / 'LICENSE'
-        assert license_path.exists()
-        assert no_curlies(license_path)
-
-    def test_license_type(self):
-        setup_ = self.path / 'setup.py'
-        args = ['python', setup_, '--license']
-        p = check_output(args).decode('ascii').strip()
-        if pytest.param.get('open_source_license'):
-            assert p == 'BSD-3'
-        else:
-            assert p == 'MIT'
-
     def test_requirements(self):
         reqs_path = self.path / 'requirements.txt'
         assert reqs_path.exists()
@@ -86,9 +72,7 @@ class TestCookieSetup(object):
     def test_folders(self):
         expected_dirs = [
             'data',
-            'data/external',
-            'data/interim',
-            'data/processed',
+            'data/output',
             'data/raw',
             'docs',
             'models',
@@ -101,6 +85,11 @@ class TestCookieSetup(object):
             'src/features',
             'src/models',
             'src/visualization',
+            'docker/airflow',
+            'docker/jupyter',
+            'docker/jupyter/extensions',
+            'docker/jupyter/profile',
+            'docker/ngnix',
         ]
 
         ignored_dirs = [

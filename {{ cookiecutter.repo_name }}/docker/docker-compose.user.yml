@@ -1,0 +1,38 @@
+# start with following cmd:
+#  docker-compose -f docker-compose.yml -f docker-compose.user.yml up -d
+
+version: '3'
+services:
+    postgres:
+        volumes:
+            - /Users/junyong/Develop/docker_data/abi_airflow_db:/var/lib/postgresql/data
+
+    webserver:
+        volumes:
+            - /Users/junyong/Develop/git/github/abi-compliance/dags:/usr/local/airflow/dags
+            - /Users/junyong/Develop/git/github/abi-compliance/jupyter:/usr/local/airflow/jupyter
+            - /Users/junyong/Develop/git/github/abi-compliance/logs:/usr/local/airflow/logs
+            - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
+
+    scheduler:
+        volumes:
+            - /Users/junyong/Develop/git/github/abi-compliance/dags:/usr/local/airflow/dags
+            - /Users/junyong/Develop/git/github/abi-compliance/logs:/usr/local/airflow/logs
+            - /Users/junyong/Develop/git/github/abi-compliance/jupyter:/usr/local/airflow/jupyter
+            - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
+
+    worker:
+        volumes:
+            - /Users/junyong/Develop/git/github/abi-compliance/dags:/usr/local/airflow/dags
+            - /Users/junyong/Develop/git/github/abi-compliance/logs:/usr/local/airflow/logs
+            - /Users/junyong/Develop/git/github/abi-compliance/jupyter:/usr/local/airflow/jupyter
+            - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
+
+    airflow_jupyter:
+        volumes:
+            - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
+            - /Users/junyong/Develop/git/github/abi-compliance/jupyter:/home/jovyan/work
+
+    airflow_nginx:
+        volumes:
+            - /Users/junyong/Develop/docker_data/airflow_nginx:/etc/nginx/logs/

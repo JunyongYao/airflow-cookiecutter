@@ -1,0 +1,89 @@
+version: '3'
+services:
+    postgres:
+        image: postgres:10
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+
+    redis:
+        image: redis:4
+
+    webserver:
+        build: airflow
+        depends_on:
+            - postgres
+            - redis
+        links:
+            - postgres
+            - redis
+        environment:
+            - LOAD_EX=n
+            - EXECUTOR=Celery
+            - DATA_PATH=/usr/local/airflow/data
+            # The following two PATH must end with /
+            - CODE_ROOT_PATH=/usr/local/airflow/
+            - JUPYTER_ROOT_PATH=/usr/local/airflow/jupyter/
+            - AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL=60
+            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+        command: webserver
+        healthcheck:
+            test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+            interval: 30s
+            timeout: 30s
+            retries: 3
+
+    flower:
+        build: airflow
+        depends_on:
+            - redis
+        environment:
+            - EXECUTOR=Celery
+            - url-prefix=flower
+        command: flower
+
+    scheduler:
+        build: airflow
+        depends_on:
+            - webserver
+        environment:
+            - DATA_PATH=/usr/local/airflow/data
+            - CODE_ROOT_PATH=/usr/local/airflow/
+            - JUPYTER_ROOT_PATH=/usr/local/airflow/jupyter/
+            - LOAD_EX=n
+            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+            - EXECUTOR=Celery
+        command: scheduler
+
+    worker:
+        build: airflow
+        depends_on:
+            - scheduler
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - DATA_PATH=/usr/local/airflow/data
+            - CODE_ROOT_PATH=/usr/local/airflow/
+            - JUPYTER_ROOT_PATH=/usr/local/airflow/jupyter/
+            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+            - EXECUTOR=Celery
+        command: worker
+
+    airflow_jupyter:
+        build: jupyter
+        environment:
+            - GRANT_SUDO=yes
+        command: start-notebook.sh
+
+    airflow_nginx:
+        build: nginx
+        depends_on:
+            - webserver
+            - airflow_jupyter
+        links:
+            - webserver
+            - airflow_jupyter
+        ports:
+            - "8090:80"
+        command: [nginx, '-g', 'daemon off;']
