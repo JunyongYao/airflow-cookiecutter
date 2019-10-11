@@ -15,7 +15,7 @@
 # ---
 
 # %% [markdown]
-# # 3_1_1_{{ cookiecutter.repo_name }}_model
+# # 3_1_1_{{ cookiecutter.project_name }}_model
 #
 # ## 输入
 # 运行 Notebook 依赖的外部数据
