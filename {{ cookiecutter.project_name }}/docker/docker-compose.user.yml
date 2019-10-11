@@ -10,7 +10,7 @@ services:
     webserver:
         volumes:
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/dags:/usr/local/airflow/dags
-            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/jupyter:/usr/local/airflow/jupyter
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/notebooks:/usr/local/airflow/jupyter
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/logs:/usr/local/airflow/logs
             - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
 
@@ -18,20 +18,23 @@ services:
         volumes:
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/dags:/usr/local/airflow/dags
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/logs:/usr/local/airflow/logs
-            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/jupyter:/usr/local/airflow/jupyter
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/notebooks:/usr/local/airflow/jupyter
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/src:/usr/local/airflow/src
             - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
 
     worker:
         volumes:
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/dags:/usr/local/airflow/dags
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/logs:/usr/local/airflow/logs
-            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/jupyter:/usr/local/airflow/jupyter
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/notebooks:/usr/local/airflow/jupyter
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/src:/usr/local/airflow/src
             - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
 
     airflow_jupyter:
         volumes:
             - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
-            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/jupyter:/home/jovyan/work
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/notebooks:/home/jovyan/work
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/src:/home/src
 
     airflow_nginx:
         volumes:

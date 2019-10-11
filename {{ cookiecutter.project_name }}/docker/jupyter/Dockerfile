@@ -4,7 +4,7 @@ LABEL maintainer="Junyong Yao <ruskeeyao@gmail.com>"
 ENV VERSION=1.0
 
 USER root
-COPY pip.conf /home/jovyan/.pip/pip.conf
+COPY pip.conf /etc/pip.conf
 COPY sources.list /etc/apt/sources.list
 
 RUN pip install --upgrade pip
@@ -12,9 +12,9 @@ RUN apt-get -qq update && \
     apt-get install -y python-dev && \
     apt-get install -y default-libmysqlclient-dev && \
     apt-get install -y libgomp1
-USER $NB_UID
-
 RUN conda install -y python=3.6.6
+
+USER $NB_UID
 
 RUN pip install jupyter_contrib_nbextensions
 RUN jupyter contrib nbextension install --user

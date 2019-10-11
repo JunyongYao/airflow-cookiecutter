@@ -73,12 +73,7 @@ logger.handlers = [handler]
 # %autoreload 2
 
 # %%
-# 由于每个人在自己的目录工作，这样可以只导入自己目录的版本
-model_path = Path(os.getcwd()).resolve().parents[1]
-logging.info(model_path)
-
-sys.path.append(str(model_path))
-
+sys.path.append(os.getenv("CODE_ROOT_PATH"))
 from src.template_util import transform_args_data, get_output_folder
 
 # %% [markdown]

@@ -60,8 +60,6 @@ services:
         build: airflow
         depends_on:
             - scheduler
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
         environment:
             - DATA_PATH=/usr/local/airflow/data
             - CODE_ROOT_PATH=/usr/local/airflow/
