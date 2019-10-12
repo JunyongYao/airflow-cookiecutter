@@ -26,11 +26,20 @@ $ conda install cookiecutter
 ### To start a new project, run:
 ------------
 
-    cookiecutter https://github.com/drivendata/cookiecutter-data-science
+    cookiecutter https://github.com/JunyongYao/airflow-cookiecutter
 
 
 [![asciicast](https://asciinema.org/a/244658.svg)](https://asciinema.org/a/244658)
 
+
+And then, you need to go to docker folder, build the docker images with 
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d 
+```
+
+to start the containers. By default, all the default notebooks can be found there.   
+
+Be careful about the volumn mapping in docker-compose.prod.yml or docker-compose.user.yml file. 
 
 ### The resulting directory structure
 ------------
@@ -41,19 +50,23 @@ The directory structure of your new project looks like this:
 ├── LICENSE
 ├── Makefile           <- Makefile with commands like `make data` or `make train`
 ├── README.md          <- The top-level README for developers using this project.
+├── dags               <- The airflow dags entry to define task's sequence
 ├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
+│   ├── output         <- Data generate by notebooks
 │   └── raw            <- The original, immutable data dump.
+│
+├── docker             <- The docker file definition to run project
+│   └── airflow        <- airflow docker definition if you want to run tasks auto
+│   └── jupyter        <- jupyter docker definition if you want to debug
+│   └── ngnix          <- interal proxy reverse server
 │
 ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
 │
 ├── models             <- Trained and serialized models, model predictions, or model summaries
 │
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
+├── notebooks          <- Jupyter notebooks. Naming convention is a X_X_X number (for ordering),
+│                         and a short `_` delimited description, e.g.
+│                         `1_1_1_initial-data-exploration`.
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │
@@ -65,6 +78,7 @@ The directory structure of your new project looks like this:
 │
 ├── src                <- Source code for use in this project.
 │   ├── __init__.py    <- Makes src a Python module
+│   ├── template_util.py   <- Some function used by notebook template
 │   │
 │   ├── data           <- Scripts to download or generate data
 │   │   └── make_dataset.py
@@ -82,10 +96,6 @@ The directory structure of your new project looks like this:
 │
 └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
 ```
-
-## Contributing
-
-We welcome contributions! [See the docs for guidelines](https://drivendata.github.io/cookiecutter-data-science/#contributing).
 
 ### Installing development requirements
 ------------
