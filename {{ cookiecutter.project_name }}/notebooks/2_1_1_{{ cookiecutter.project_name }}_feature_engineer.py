@@ -94,19 +94,35 @@ script_input_parser.add_argument('--file_b', type=str, default="1_2_1:file_b.txt
 
 # %% [markdown]
 # workflow 如果需要调试，替换路径的话，为了减少对基于 Notebook 下的工作的影响，可以在这里设置
+# %%
+from IPython.core.display import Javascript
+from IPython.display import display as idisplay
+
+idisplay(Javascript('IPython.notebook.kernel.execute("theNotebook = " + \
+    "\'"+IPython.notebook.notebook_name+"\'");'))
+
+if 'theNotebook' in globals():
+    cur_name = theNotebook
+else:
+    cur_name = os.path.basename(__file__)
 
 # %%
 # 使用这个来忽律系统额外传过来的参数
 args, _ = script_input_parser.parse_known_args()
-data_location = args.data_location
-output_folder = get_output_folder(data_location)
+args.data_location = get_output_folder(args.data_location)
+
 # 如果需要调试 airflow，请在这里更改赋值路径，比如 args.file_a = "XXXXX"
 #
 
 for arg in vars(args):
     got_file_path = getattr(args, arg)
     # 把类似于 X_X_X:file_name 转换为真实的文件路径
-    setattr(args, arg, transform_args_data(got_file_path, data_location))
+    setattr(args, arg, transform_args_data(got_file_path, args.data_location, cur_name))
+
+cur_task_output_folder = os.path.join(args.data_location, cur_name)
+if not os.path.exists(cur_task_output_folder):
+    os.makedirs(cur_task_output_folder)
+
 
 # %% [markdown]
 # # Your Show Time

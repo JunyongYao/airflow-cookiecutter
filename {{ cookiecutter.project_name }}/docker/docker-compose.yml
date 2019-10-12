@@ -72,6 +72,8 @@ services:
         build: jupyter
         environment:
             - GRANT_SUDO=yes
+            - DATA_PATH=/usr/local/airflow/data
+            - CODE_ROOT_PATH=/usr/local/airflow/
         command: start-notebook.sh
 
     airflow_nginx:

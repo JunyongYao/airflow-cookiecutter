@@ -33,8 +33,8 @@ services:
     airflow_jupyter:
         volumes:
             - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/src:/usr/local/airflow/src
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/notebooks:/home/jovyan/work
-            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/src:/home/src
 
     airflow_nginx:
         volumes:

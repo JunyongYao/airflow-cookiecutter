@@ -43,7 +43,7 @@ def generate_task_operator(task_file):
     # 这个路径和 dag 的实例相关，每个实例开始运行的时间，即为 latest_execution_date，但 rerun 会有问题
     task_file_full_path = os.path.join(jupyter_root_dir, task_file)
     last_dag_output = os.path.join(
-        DATA_ROOT_DIR, "output_{}".format(dag.latest_execution_date.strftime("%Y-%m-%d_%H%M%S")))
+        DATA_ROOT_DIR, "output", dag.latest_execution_date.strftime("%Y-%m-%d_%H%M%S"))
     if not os.path.exists(last_dag_output):
         os.makedirs(last_dag_output)
 
