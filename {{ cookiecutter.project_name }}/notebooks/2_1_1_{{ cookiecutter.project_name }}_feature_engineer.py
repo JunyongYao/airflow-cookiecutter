@@ -101,6 +101,7 @@ from IPython.display import display as idisplay
 idisplay(Javascript('IPython.notebook.kernel.execute("theNotebook = " + \
     "\'"+IPython.notebook.notebook_name+"\'");'))
 
+# %%
 if 'theNotebook' in globals():
     cur_name = theNotebook
 else:

@@ -89,8 +89,7 @@ script_input_parser = argparse.ArgumentParser(description='设置 flow参数')
 #  python XXXXX.py  --data_location=to_save_output_location
 # 在 notebook 里面 default 就是 None 吧，会自动设置为 data_location/X_X_X/ 目录下输出
 script_input_parser.add_argument('--data_location', type=str, default=None)
-script_input_parser.add_argument('--file_a', type=str, default="1_1_1:file_a")
-script_input_parser.add_argument('--file_b', type=str, default="1_2_1:file_b.txt")
+script_input_parser.add_argument('--file_a', type=str, default="0_0_0:file_a")
 
 # %% [markdown]
 # workflow 如果需要调试，替换路径的话，为了减少对基于 Notebook 下的工作的影响，可以在这里设置
@@ -102,6 +101,7 @@ from IPython.display import display as idisplay
 idisplay(Javascript('IPython.notebook.kernel.execute("theNotebook = " + \
     "\'"+IPython.notebook.notebook_name+"\'");'))
 
+# %%
 if 'theNotebook' in globals():
     cur_name = theNotebook
 else:

@@ -48,8 +48,8 @@ def transform_args_data(args_value, output_folder, file_name):
     list_of_files = os.listdir(file_path)
 
     pre_file_ver, target_file = args_value.split(":")
-    if check_file_ver(pre_file_ver, file_name):
-        raise ValueError(f"Current file version is larger than precedent {pre_file_ver}")
+    if not check_file_ver(pre_file_ver, file_name):
+        raise ValueError(f"Current file version is before precedent {pre_file_ver}")
 
     if "." in target_file:
         file_base_name, file_extention = target_file.split(".")

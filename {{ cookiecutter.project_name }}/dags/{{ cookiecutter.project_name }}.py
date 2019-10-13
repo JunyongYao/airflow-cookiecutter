@@ -41,12 +41,16 @@ md_template = """
 
 def generate_task_operator(task_file):
     # 这个路径和 dag 的实例相关，每个实例开始运行的时间，即为 latest_execution_date，但 rerun 会有问题
-    task_file_full_path = os.path.join(jupyter_root_dir, task_file)
-    last_dag_output = os.path.join(
-        DATA_ROOT_DIR, "output", dag.latest_execution_date.strftime("%Y-%m-%d_%H%M%S"))
+    if dag.latest_execution_date:
+        time_str = dag.latest_execution_date.strftime("%Y-%m-%d_%H%M%S")
+    else:
+        time_str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+
+    last_dag_output = os.path.join(DATA_ROOT_DIR, "output", time_str)
     if not os.path.exists(last_dag_output):
         os.makedirs(last_dag_output)
 
+    task_file_full_path = os.path.join(jupyter_root_dir, task_file)
     file_url = task_file_full_path.replace(os.getenv("JUPYTER_ROOT_PATH"), "/notebook/notebooks/")
     base_task = BashOperator(
         task_id=task_file.split(".")[0],
