@@ -1,6 +1,6 @@
 # 统一一个版本，后续好操作, 该版本在 2018-10-25 官网更新
 # https://github.com/puckel/docker-airflow/blob/master/Dockerfile
-FROM  puckel/docker-airflow:1.10.1
+FROM  puckel/docker-airflow:1.10.4
 MAINTAINER Junyong Yao <ruskeeyao@gmail.com>
 
 USER root

@@ -1,0 +1,53 @@
+version: '3'
+services:
+    postgres:
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /data/docker/data/airflow_{{cookiecutter.project_name}}/db:/var/lib/postgresql/data
+
+    webserver:
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /data/code/git/{{cookiecutter.project_name}}/dags:/usr/local/airflow/dags
+            - /data/code/git/{{cookiecutter.project_name}}/notebooks:/usr/local/airflow/jupyter
+            - /data/docker/data/airflow_{{cookiecutter.project_name}}/logs:/usr/local/airflow/logs
+            - /data/backup/{{cookiecutter.project_name}}_data:/usr/local/airflow/data
+
+    flower:
+        restart: always
+
+    scheduler:
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /data/code/git/{{cookiecutter.project_name}}/dags:/usr/local/airflow/dags
+            - /data/docker/data/airflow_{{cookiecutter.project_name}}/logs:/usr/local/airflow/logs
+            - /data/code/git/{{cookiecutter.project_name}}/notebooks:/usr/local/airflow/jupyter
+            - /data/code/git/{{cookiecutter.project_name}}/src:/usr/local/airflow/src
+            - /data/backup/{{cookiecutter.project_name}}_data:/usr/local/airflow/data
+
+    worker:
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /data/code/git/{{cookiecutter.project_name}}/dags:/usr/local/airflow/dags
+            - /data/docker/data/airflow_{{cookiecutter.project_name}}/logs:/usr/local/airflow/logs
+            - /data/code/git/{{cookiecutter.project_name}}/notebooks:/usr/local/airflow/jupyter
+            - /data/code/git/{{cookiecutter.project_name}}/src:/usr/local/airflow/src
+            - /data/backup/{{cookiecutter.project_name}}_data:/usr/local/airflow/data
+
+    airflow_jupyter:
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /data/backup/{{cookiecutter.project_name}}_data:/usr/local/airflow/data
+            - /data/code/git/{{cookiecutter.project_name}}/notebooks:/home/jovyan/work
+            - /data/code/git/{{cookiecutter.project_name}}/src:/usr/local/airflow/src
+
+    airflow_nginx:
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /data/docker/data/airflow_nginx_{{cookiecutter.project_name}}/logs:/etc/nginx/logs/

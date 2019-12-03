@@ -7,20 +7,10 @@ services:
             - POSTGRES_PASSWORD=airflow
             - POSTGRES_DB=airflow
 
-    redis:
-        image: redis:4
-
     webserver:
         build: airflow
-        depends_on:
-            - postgres
-            - redis
-        links:
-            - postgres
-            - redis
         environment:
             - LOAD_EX=n
-            - EXECUTOR=Celery
             - DATA_PATH=/usr/local/airflow/data
             # The following two PATH must end with /
             - CODE_ROOT_PATH=/usr/local/airflow/
@@ -33,40 +23,6 @@ services:
             interval: 30s
             timeout: 30s
             retries: 3
-
-    flower:
-        build: airflow
-        depends_on:
-            - redis
-        environment:
-            - EXECUTOR=Celery
-            - url-prefix=flower
-        command: flower
-
-    scheduler:
-        build: airflow
-        depends_on:
-            - webserver
-        environment:
-            - DATA_PATH=/usr/local/airflow/data
-            - CODE_ROOT_PATH=/usr/local/airflow/
-            - JUPYTER_ROOT_PATH=/usr/local/airflow/jupyter/
-            - LOAD_EX=n
-            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
-            - EXECUTOR=Celery
-        command: scheduler
-
-    worker:
-        build: airflow
-        depends_on:
-            - scheduler
-        environment:
-            - DATA_PATH=/usr/local/airflow/data
-            - CODE_ROOT_PATH=/usr/local/airflow/
-            - JUPYTER_ROOT_PATH=/usr/local/airflow/jupyter/
-            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
-            - EXECUTOR=Celery
-        command: worker
 
     airflow_jupyter:
         build: jupyter

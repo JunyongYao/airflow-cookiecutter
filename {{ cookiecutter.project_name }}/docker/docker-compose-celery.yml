@@ -1,0 +1,48 @@
+version: '3'
+services:
+    redis:
+        image: redis:4
+
+    webserver:
+        depends_on:
+            - postgres
+            - redis
+        links:
+            - postgres
+            - redis
+        environment:
+            - EXECUTOR=Celery
+
+    flower:
+        build: airflow
+        depends_on:
+            - redis
+        environment:
+            - EXECUTOR=Celery
+            - url-prefix=flower
+        command: flower
+
+    scheduler:
+        build: airflow
+        depends_on:
+            - webserver
+        environment:
+            - DATA_PATH=/usr/local/airflow/data
+            - CODE_ROOT_PATH=/usr/local/airflow/
+            - JUPYTER_ROOT_PATH=/usr/local/airflow/jupyter/
+            - LOAD_EX=n
+            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+            - EXECUTOR=Celery
+        command: scheduler
+
+    worker:
+        build: airflow
+        depends_on:
+            - scheduler
+        environment:
+            - DATA_PATH=/usr/local/airflow/data
+            - CODE_ROOT_PATH=/usr/local/airflow/
+            - JUPYTER_ROOT_PATH=/usr/local/airflow/jupyter/
+            - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+            - EXECUTOR=Celery
+        command: worker

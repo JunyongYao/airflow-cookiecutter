@@ -1,1 +1,2 @@
-docker-compose.prod.yml
+docker-compose-celery.prod.yml
+docker-compose-local.prod.yml

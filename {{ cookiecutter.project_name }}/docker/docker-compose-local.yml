@@ -1,0 +1,10 @@
+version: '3'
+services:
+    webserver:
+        depends_on:
+            - postgres
+        links:
+            - postgres
+        environment:
+            - EXECUTOR=Local
+
