@@ -37,6 +37,16 @@ def check_file_ver(compare_file_ver, file_name):
     return get_ver_num(cur_file_ver) > get_ver_num(compare_file_ver)
 
 
+def get_0_0_0_folder(output_folder):
+    search_folder = os.path.abspath(output_folder)
+    while not os.path.isdir(os.path.join(search_folder, "0_0_0")):
+        search_folder = os.path.dirname(search_folder)
+        if search_folder == "/":
+            raise FileNotFoundError()
+
+    return os.path.join(search_folder, "0_0_0")
+
+
 def transform_args_data(args_value, output_folder, file_name):
     if os.path.exists(args_value):
         return args_value
@@ -44,7 +54,12 @@ def transform_args_data(args_value, output_folder, file_name):
     if ":" not in args_value:
         raise ValueError(f"Illegal file path {args_value}")
 
-    file_path = os.path.join(output_folder, args_value.split(":")[0])
+    folder_name = args_value.split(":")[0]
+    if folder_name == "0_0_0":
+        # 如果是 0_0_0, 为 raw_data ，它的路径可能是上面
+        file_path = get_0_0_0_folder(output_folder)
+    else:
+        file_path = os.path.join(output_folder, args_value.split(":")[0])
     list_of_files = os.listdir(file_path)
 
     pre_file_ver, target_file = args_value.split(":")

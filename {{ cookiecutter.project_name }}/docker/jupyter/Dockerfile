@@ -1,21 +1,24 @@
 # 统一一个版本，后续好操作, 该版本在 2018-10-03 官网更新
 FROM  jupyter/tensorflow-notebook:1145fb1198b2
 LABEL maintainer="Junyong Yao <ruskeeyao@gmail.com>"
-ENV VERSION=1.0
+ENV VERSION=1.1
 
 USER root
 COPY pip.conf /etc/pip.conf
 COPY sources.list /etc/apt/sources.list
 
-RUN pip install --upgrade pip
 RUN apt-get -qq update && \
     apt-get install -y python-dev && \
     apt-get install -y default-libmysqlclient-dev && \
     apt-get install -y libgomp1
-RUN conda install -y python=3.6.6
+
+RUN conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+RUN conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+RUN conda config --set show_channel_urls yes
+RUN conda install -y python=3.7
 
 USER $NB_UID
-
+RUN pip install --upgrade pip
 RUN pip install jupyter_contrib_nbextensions
 RUN jupyter contrib nbextension install --user
 
@@ -27,7 +30,7 @@ RUN pip install xgboost==0.81 && \
     pip install pyarrow==0.11.1 && \
     pip install tqdm==4.28.1 && \
     pip install mlxtend==0.14.0 && \
-    pip install pyecharts==0.5.*
+    pip install pyecharts==1.*
 
 RUN pip install pandas-profiling==1.4.1 && \
     pip install jupyterthemes==0.20.0 && \
@@ -74,5 +77,4 @@ RUN pip install gensim==3.7.1
 RUN pip install pandas==0.24.1
 
 # 初始化：用户、路径
-USER $NB_UID
 ENV PYTHONPATH=/home/jovyan/submodules:/home/jovyan/submodules/gaia:/home/jovyan/work

@@ -7,4 +7,5 @@ services:
             - postgres
         environment:
             - EXECUTOR=Local
-
+            # 文件解析时长增加，这样，默认本地文件不怎么变，可以减少 cpu 的解析负担，也去除 导致大量的 [python3] <defunct> 这个问题
+            - AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL=180

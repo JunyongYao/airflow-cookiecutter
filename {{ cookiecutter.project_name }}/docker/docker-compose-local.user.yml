@@ -3,6 +3,7 @@ services:
     postgres:
         volumes:
             - /Users/junyong/Develop/docker_data/{{cookiecutter.project_name}}_db:/var/lib/postgresql/data
+            - /Users/junyong/Develop/docker_data/{{cookiecutter.project_name}}_run:/var/run/postgresql/
 
     webserver:
         volumes:
@@ -10,11 +11,11 @@ services:
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/logs:/usr/local/airflow/logs
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/notebooks:/usr/local/airflow/jupyter
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/src:/usr/local/airflow/src
-            - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/airflow_data:/usr/local/airflow/data
 
     airflow_jupyter:
         volumes:
-            - /Users/junyong/tmp/hackathon/百威/Hackathon/Hackathon - STR Misreporting/May/airflow_data:/usr/local/airflow/data
+            - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/airflow_data:/usr/local/airflow/data
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/src:/usr/local/airflow/src
             - /Users/junyong/Develop/git/github/test/{{cookiecutter.project_name}}/notebooks:/home/jovyan/work
 

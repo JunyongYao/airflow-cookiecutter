@@ -73,7 +73,8 @@ logger.handlers = [handler]
 # %autoreload 2
 
 # %%
-sys.path.append(os.getenv("CODE_ROOT_PATH"))
+CODE_ROOT_PATH = os.getenv("CODE_ROOT_PATH")
+sys.path.append(CODE_ROOT_PATH or '..')
 from src.template_util import transform_args_data, get_output_folder
 
 # %% [markdown]
@@ -105,6 +106,7 @@ if 'theNotebook' in globals():
     cur_name = theNotebook
 else:
     cur_name = os.path.basename(__file__)
+cur_name = "_".join(cur_name.split("_")[0:3])
 
 # %%
 # 使用这个来忽律系统额外传过来的参数

@@ -5,6 +5,7 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /data/docker/data/airflow_{{cookiecutter.project_name}}/db:/var/lib/postgresql/data
+            - /data/docker/data/airflow_{{cookiecutter.project_name}}/run:/var/run/postgresql/
 
     webserver:
         restart: always
@@ -15,8 +16,8 @@ services:
             - /data/docker/data/airflow_{{cookiecutter.project_name}}/logs:/usr/local/airflow/logs
             - /data/backup/{{cookiecutter.project_name}}_data:/usr/local/airflow/data
 
-    flower:
-        restart: always
+#    flower:
+#        restart: always
 
     scheduler:
         restart: always

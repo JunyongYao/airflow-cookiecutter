@@ -13,14 +13,14 @@ services:
         environment:
             - EXECUTOR=Celery
 
-    flower:
-        build: airflow
-        depends_on:
-            - redis
-        environment:
-            - EXECUTOR=Celery
-            - url-prefix=flower
-        command: flower
+#    flower:
+#        build: airflow
+#        depends_on:
+#            - redis
+#        environment:
+#            - EXECUTOR=Celery
+#            - url-prefix=flower
+#        command: flower
 
     scheduler:
         build: airflow
