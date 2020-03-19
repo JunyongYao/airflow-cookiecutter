@@ -108,12 +108,13 @@ def get_args_data(args_value):
 
 
 def get_output_folder(args_value):
-    # 如果不是 None，那必须是有价值的东西
+    # 如果不是 None，由于第一次运行可能文件不存在，所以需要创建。
     if args_value:
-        if os.path.exists(args_value):
-            return os.path.abspath(args_value)
-        else:
-            raise ValueError(f"Cannot find path {args_value}")
+        if not os.path.exists(args_value):
+            print(f"Cannot find path {args_value}, create it!")
+            os.makedirs(args_value)
+
+        return os.path.abspath(args_value)
 
     # 对于 notebook 中，根据自身的编号创建对应的文件夹
     if is_notebook():

@@ -70,9 +70,7 @@ def generate_task_operator(dag, task_file, owner_phone):
     else:
         time_str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
 
-    last_dag_output = os.path.join(DATA_ROOT_DIR, "output", time_str)
-    if not os.path.exists(last_dag_output):
-        os.makedirs(last_dag_output)
+    last_dag_output = os.path.join(DATA_ROOT_DIR, "output", dag.dag_id, time_str)
 
     task_file_full_path = os.path.join(jupyter_root_dir, task_file)
     file_url = task_file_full_path.replace(os.getenv("JUPYTER_ROOT_PATH"), "/notebook/notebooks/")
